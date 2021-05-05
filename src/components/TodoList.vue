@@ -122,6 +122,19 @@ export default {
       return this.todos
     },
   },
+  mounted() {
+    if (localStorage.todos) {
+      this.todos = JSON.parse(localStorage.todos)
+    }
+  },
+  watch: {
+    todos: {
+      handler(newTodos) {
+        localStorage.todos = JSON.stringify(newTodos)
+      },
+      deep: true,
+    },
+  },
   methods: {
     addTodo() {
       if (this.newTodo.trim().length == 0) {
