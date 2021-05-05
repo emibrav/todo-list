@@ -53,9 +53,9 @@
     <div class="container flex justify-between mt-2">
       <label>
         <input type="checkbox" :checked="!anyRemaining" @change="checkAll" />
-        Check All
+        Tildar todas
       </label>
-      {{ remaining }} items left
+      Falta(n) {{ remaining }} por hacer
     </div>
     <hr />
     <div class="flex mt-2">
@@ -64,21 +64,21 @@
         :class="{ filter: filter == 'all' }"
         @click="filter = 'all'"
       >
-        All
+        Todas
       </button>
       <button
         class="mr-2 border px-2"
         :class="{ filter: filter == 'active' }"
         @click="filter = 'active'"
       >
-        Active
+        No hechas
       </button>
       <button
         class="border px-2"
         :class="{ filter: filter == 'completed' }"
         @click="filter = 'completed'"
       >
-        Completed
+        Hechas
       </button>
     </div>
   </div>
