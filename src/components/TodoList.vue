@@ -178,6 +178,7 @@ export default {
   text-decoration: line-through;
 }
 .filter {
-  background-color: #9bffd2;
+  background-color: #41b883;
+  color: rgba(249, 250, 251);
 }
 </style>
