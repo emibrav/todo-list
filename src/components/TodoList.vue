@@ -1,5 +1,5 @@
 <template>
-  <div class="container max-w-md mx-auto">
+  <div class="container max-w-md mx-auto px-10">
     <div class="">
       <input
         v-model="newTodo"
