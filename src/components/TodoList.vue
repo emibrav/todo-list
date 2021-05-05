@@ -7,7 +7,7 @@
         type="text"
         class="border
       w-full my-4 placeholder-gray-500 placeholder-opacity-50"
-        placeholder="Nueva tarea... (doble click para modificar)"
+        placeholder="Nueva tarea...[2 click pa modificar]"
       />
     </div>
     <div
