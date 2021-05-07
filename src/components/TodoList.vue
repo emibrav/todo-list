@@ -6,9 +6,18 @@
         @keyup.enter="addTodo"
         type="text"
         class="border
-      w-full my-4 placeholder-gray-500 placeholder-opacity-50"
+      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50"
         placeholder="Nueva tarea...[2 click pa modificar]"
       />
+      <!-- <div class="mb-3" v-if="todos.length == 0">
+        Probame, soy alta app
+      </div> -->
+      <div class="mb-3" v-if="noActive">
+        "No hay tareas activas"
+      </div>
+      <div class="mb-3" v-if="noDone">
+        "No hay tareas hechas aun"
+      </div>
     </div>
     <div
       v-for="(todo, index) in todosFiltered"
@@ -62,21 +71,21 @@
       <button
         class="mr-2 border px-2"
         :class="{ filter: filter == 'all' }"
-        @click="filter = 'all'"
+        @click="noTaskYet"
       >
         Todas
       </button>
       <button
         class="mr-2 border px-2"
         :class="{ filter: filter == 'active' }"
-        @click="filter = 'active'"
+        @click="activeTaskFilter"
       >
         No hechas
       </button>
       <button
         class="border px-2"
         :class="{ filter: filter == 'completed' }"
-        @click="filter = 'completed'"
+        @click="completedActiveFilter"
       >
         Hechas
       </button>
@@ -92,6 +101,8 @@ export default {
       newTodo: "",
       idNewTodo: 1,
       beforeEditCache: "",
+      noActive: false,
+      noDone: false,
       filter: "all",
       todos: [],
     }
@@ -169,6 +180,36 @@ export default {
     },
     checkAll() {
       this.todos.forEach((todo) => (todo.completed = event.target.checked))
+    },
+    activeTaskFilter() {
+      this.filter = "active"
+      if (this.todos.length == 0) {
+        this.noActive = false
+      } else {
+        this.noActive = true
+      }
+      if (this.remaining > 0) {
+        this.noActive = false
+      }
+      this.noDone = false
+    },
+    completedActiveFilter() {
+      this.filter = "completed"
+      if (this.todos.length == 0) {
+        this.noDone = false
+      }
+      if (this.remaining == 0) {
+        this.noDone = false
+      }
+      this.noActive = false
+      if (this.todos.filter((todo) => todo.completed).length == 0) {
+        this.noDone = true
+      }
+    },
+    noTaskYet() {
+      this.filter = "all"
+      this.noDone = false
+      this.noActive = false
     },
   },
 }
