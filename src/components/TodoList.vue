@@ -24,12 +24,10 @@
       :key="todo.id"
       class="flex justify-between"
     >
-      <div class="flex items-center">
-        <input
-          type="checkbox"
-          v-model="todo.completed"
-          class="mr-3 w-2.5 h-2.5"
-        />
+      <div
+        class="flex items-center appearance-none checked:bg-blue-600 checked:border-transparent"
+      >
+        <input type="checkbox" v-model="todo.completed" class="mr-3" />
         <div
           v-if="!todo.edited"
           @dblclick="editTodo(todo)"
