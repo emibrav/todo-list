@@ -1,17 +1,14 @@
 <template>
-  <div class="container max-w-md mx-auto px-10">
+  <div class="container max-w-md mx-auto px-10 pb-4">
     <div class="">
       <input
         v-model="newTodo"
         @keyup.enter="addTodo"
         type="text"
         class="border
-      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50"
+      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50 px-2 py-1"
         placeholder="Nueva tarea...[2 click pa modificar]"
       />
-      <!-- <div class="mb-3" v-if="todos.length == 0">
-        Probame, soy alta app
-      </div> -->
       <div class="mb-3" v-if="noActive">
         "No hay tareas activas"
       </div>
@@ -58,7 +55,7 @@
     </div>
     <hr />
     <div class="container flex justify-between mt-2">
-      <label>
+      <label class="mb-2">
         <input type="checkbox" :checked="!anyRemaining" @change="checkAll" />
         Tildar todas
       </label>
