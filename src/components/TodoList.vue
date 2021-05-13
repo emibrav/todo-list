@@ -6,7 +6,7 @@
         @keyup.enter="addTodo"
         type="text"
         class="border
-      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50 px-2 py-1"
+      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50 px-2 py-1 text-sm"
         placeholder="Nueva tarea...[2 click pa modificar]"
       />
       <div class="mb-3" v-if="noActive">
@@ -62,28 +62,38 @@
       Falta(n) {{ remaining }} por hacer
     </div>
     <hr />
-    <div class="flex mt-2">
-      <button
-        class="mr-2 border px-2"
-        :class="{ filter: filter == 'all' }"
-        @click="noTaskYet"
-      >
-        Todas
-      </button>
-      <button
-        class="mr-2 border px-2"
-        :class="{ filter: filter == 'active' }"
-        @click="activeTaskFilter"
-      >
-        No hechas
-      </button>
-      <button
-        class="border px-2"
-        :class="{ filter: filter == 'completed' }"
-        @click="completedActiveFilter"
-      >
-        Hechas
-      </button>
+    <div class="flex mt-2 justify-between">
+      <div>
+        <button
+          class="mr-2 border px-2 text-xs"
+          :class="{ filter: filter == 'all' }"
+          @click="noTaskYet"
+        >
+          Todas
+        </button>
+        <button
+          class="mr-2 border px-2 text-xs"
+          :class="{ filter: filter == 'active' }"
+          @click="activeTaskFilter"
+        >
+          No hechas
+        </button>
+        <button
+          class="border px-2 text-xs"
+          :class="{ filter: filter == 'completed' }"
+          @click="completedActiveFilter"
+        >
+          Hechas
+        </button>
+      </div>
+      <div>
+        <button
+          class="border px-1 py-1 text-xs bg-gray-100 hover:bg-gray-200"
+          @click="cleanAll"
+        >
+          Limpiar
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -205,6 +215,10 @@ export default {
       this.filter = "all"
       this.noDone = false
       this.noActive = false
+    },
+    cleanAll() {
+      //this.todos.splice(0)
+      this.todos = []
     },
   },
 }
