@@ -6,7 +6,7 @@
         @keyup.enter="addTodo"
         type="text"
         class="border
-      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50 px-2 py-1 text-sm"
+      w-full mb-3 mt-4 placeholder-gray-500 placeholder-opacity-50 px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-green-500"
         placeholder="Nueva tarea...[2 click pa modificar]"
       />
       <div class="mb-3" v-if="noActive">
@@ -16,47 +16,24 @@
         "No hay tareas hechas aun"
       </div>
     </div>
-    <div
-      v-for="(todo, index) in todosFiltered"
+    <todo-item
+      v-for="todo in todosFiltered"
       :key="todo.id"
       class="flex justify-between"
+      :todo="todo"
+      :checkAll="!anyRemaining"
+      @deletedTodo="deleteTodo"
+      @finishedEdit="doneEdit"
     >
-      <div
-        class="flex items-center appearance-none checked:bg-blue-600 checked:border-transparent"
-      >
-        <input type="checkbox" v-model="todo.completed" class="mr-3" />
-        <div
-          v-if="!todo.edited"
-          @dblclick="editTodo(todo)"
-          v-bind:class="{ linethrough: todo.completed }"
-          class=""
-        >
-          {{ todo.title }}
-        </div>
-        <div v-else>
-          <input
-            v-model="todo.title"
-            type="text"
-            v-focus
-            class="border flex items-center mt-1"
-            @keyup.esc="cancelEdit(todo)"
-            @keyup.enter="doneEdit(todo)"
-            @blur="doneEdit(todo)"
-          />
-        </div>
-      </div>
-      <div
-        v-show="!todo.edited"
-        @click="deleteTodo(index)"
-        class="cursor-pointer my-1 pb-1"
-      >
-        &times;
-      </div>
-    </div>
+    </todo-item>
     <hr />
     <div class="container flex justify-between mt-2">
       <label class="mb-2">
-        <input type="checkbox" :checked="!anyRemaining" @change="checkAll" />
+        <input
+          type="checkbox"
+          :checked="!anyRemaining"
+          @change="checkAllTodos"
+        />
         Tildar todas
       </label>
       Falta(n) {{ remaining }} por hacer
@@ -99,8 +76,11 @@
 </template>
 
 <script>
+import TodoItem from "./TodoItem.vue"
+
 export default {
   name: "TodoList",
+  components: { TodoItem },
   data() {
     return {
       newTodo: "",
@@ -112,14 +92,7 @@ export default {
       todos: [],
     }
   },
-  directives: {
-    focus: {
-      // Definición de directiva
-      inserted: function(el) {
-        el.focus()
-      },
-    },
-  },
+
   computed: {
     remaining() {
       return this.todos.filter((todo) => !todo.completed).length
@@ -174,16 +147,15 @@ export default {
       todo.edited = false
       todo.title = this.beforeEditCache
     },
-    doneEdit(todo) {
-      if (todo.title.trim().length == 0) {
-        todo.title = this.beforeEditCache
-      }
-      todo.edited = false
+    doneEdit(data) {
+      const index = this.todos.findIndex((item) => item.id == data.id)
+      this.todos.splice(index, 1, data)
     },
-    deleteTodo(index) {
+    deleteTodo(id) {
+      const index = this.todos.findIndex((item) => item.id == id)
       this.todos.splice(index, 1)
     },
-    checkAll() {
+    checkAllTodos() {
       this.todos.forEach((todo) => (todo.completed = event.target.checked))
     },
     activeTaskFilter() {
